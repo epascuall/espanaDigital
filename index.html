@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>España en el espejo europeo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@300;400;600&family=Source+Serif+4:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!--Agregamos las librerías D3.js-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+
+    <!-- MAPA EUROSTAT-MAP-->
+    <script src="https://unpkg.com/eurostat-map@4.3.40"></script>
+
+</head>
+
+
+<body>
+
+<!-- BARRA SUPERIOR -->
+<div id="topbar">
+  <div>
+    <div class="topbar-title">España en el entorno europeo</div>
+    <div class="topbar-subtitle">Digitalización · UE-27 · Eurostat 2025</div>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-progress-wrap">
+    <div class="topbar-steps" id="stepDots"></div>
+    <div class="topbar-progress-label" id="progressLabel">Introducción · 1 de 6</div>
+  </div>
+  <div class="topbar-source">Fuentes: Eurostat · Digital Decade 2030</div>
+</div>
+
+<!--  BARRA LATERAL -->
+<nav id="sidebar">
+  <div class="sidebar-group-label">Inicio</div>
+  <a class="sidebar-link active" data-section="intro" onclick="goTo('intro')">
+    <span class="sidebar-num">00</span>
+    <span class="sidebar-text">Introducción</span>
+  </a>
+
+  <div class="sidebar-group-label">Análisis por dimensión</div>
+  <a class="sidebar-link" data-section="conectividad" onclick="goTo('conectividad')">
+    <span class="sidebar-num">01</span>
+    <span class="sidebar-text">Conectividad</span>
+  </a>
+  <a class="sidebar-link" data-section="capital" onclick="goTo('capital')">
+    <span class="sidebar-num">02</span>
+    <span class="sidebar-text">Capacidades digitales</span>
+  </a>
+  <a class="sidebar-link" data-section="uso" onclick="goTo('uso')">
+    <span class="sidebar-num">03</span>
+    <span class="sidebar-text">Uso digital</span>
+  </a>
+  <a class="sidebar-link" data-section="servicios" onclick="goTo('servicios')">
+    <span class="sidebar-num">04</span>
+    <span class="sidebar-text">Servicios públicos</span>
+  </a>
+
+  <div class="sidebar-group-label">Conclusión</div>
+  <a class="sidebar-link" data-section="cierre" onclick="goTo('cierre')">
+    <span class="sidebar-num">05</span>
+    <span class="sidebar-text">El espejo europeo</span>
+  </a>
+
+  <div class="sidebar-meta">
+    <p>Datos: Eurostat<br>
+    isoc_ci_in_h<br>
+    isoc_sk_dskl_i21<br>
+    isoc_ci_ac_i<br>
+    isoc_ciegi_ac<br>
+    eGovernment Benchmark 2025</p>
+    <p><strong>Autor: Eduardo Pascual Lor - 2026</strong></p>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- ── 00 INTRO ── -->
+  <section class="section active" id="sec-intro">
+    <div class="section-head">
+      <div class="chapter-tag">Punto de partida</div>
+      <div class="section-title">España digital: ¿promesa o realidad?</div>
+      <div class="section-deck">Europa lleva dos décadas midiendo su digitalización. Detrás de cada número hay millones de ciudadanos con experiencias muy distintas. Esta es la historia de España.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">Un <strong>índice compuesto de digitalización</strong> es una métrica sintética que agrupa múltiples indicadores (conectividad, capacidades digitales, integración tecnológica y servicios públicos) en una sola puntuación permitiendo evaluar, comparar y monitorizar el grado de avance tecnológico y madurez digital de países, industrias u organizaciones. <br> El índice agrega cuatro dimensiones y cada una de ellas cuenta una historia diferente.</p>
+        <p class="narrative-text">España se sitúa en la posición <strong>9 de 27</strong> en el índice compuesto. Pero ese número esconde una paradoja, el país más fuerte en infraestructuras del sur de Europa, con brechas notables en la capacidad de sus ciudadanos para aprovecharlas.</p>
+        <div class="insight-block">
+          <p>España construyó las autopistas digitales antes que la capacidad de aprovecharlas.</p>
+        </div>
+        <p class="narrative-text">Este análisis recorre las cuatro dimensiones una a una, con España como hilo conductor y el resto de Europa como espejo.</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">Índice compuesto de digitalización — UE-27 · 2025</div>
+        <div class="chart-container" id="chart-intro"></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--es-color)"></div>España</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--de-color)"></div>Alemania</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--ink-faint)"></div>Resto UE</div>
+          <div class="legend-item"><div class="legend-line"></div>Media UE</div>
+        </div>
+        <div class="chart-note">* Índice compuesto calculado como media simple de las cuatro dimensiones.</div>
+      </div>
+      <div class="section-footer">
+        <button class="nav-btn" disabled>← Anterior</button>
+        <span class="step-indicator">1 / 6</span>
+        <button class="nav-btn primary" onclick="goTo('conectividad')">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01-CONECTIVIDAD -->
+  <section class="section" id="sec-conectividad">
+    <div class="section-head">
+      <div class="chapter-tag">Capítulo 01 · Infraestructuras</div>
+      <div class="section-title">Las autopistas están construidas</div>
+      <div class="section-deck">En cobertura de banda ancha, España está entre los primeros puestos de la Unión Europea. Las infraestructuras son su punto más fuerte.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">Si midiéramos la digitalización solo por infraestructuras, España sería un ejemplo para Europa. La fibra óptica llega a casi todos los rincones del país.</p>
+        <div class="insight-block">
+          <p>España supera a Alemania en cobertura de fibra óptica por habitante.</p>
+        </div>
+        <p class="narrative-text">España ha tenido históricamente una de las coberturas de banda ancha más altas de la UE, impulsada por una fuerte inversión en fibra óptica (FTTH) desde mediados de la década de 2010.</p>
+        <p class="narrative-text">España supera a Alemania, que históricamente ha tenido problemas con el despliegue de fibra, especialmente en zonas rurales, pero queda por detrás en los indicadores de uso productivo.</p>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value es" id="stat-conn-es">96.83%</div>
+            <div class="stat-label">España</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color:var(--de-color)" id="stat-conn-de">92.65%</div>
+            <div class="stat-label">Alemania</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-conn-eu">94.74%</div>
+            <div class="stat-label">Media UE</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value accent">6.º</div>
+            <div class="stat-label">Posición UE-27</div>
+          </div>
+        </div>
+        <p class="narrative-text" style="font-size:12px; color:var(--ink-light)">Fuente: Eurostat isoc_ci_in_h · Año de referencia: 2025</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">% de hogares con acceso a internet — UE-27</div>
+        <div class="chart-container" id="chart-conectividad"></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="" style="background:var(--es-color)"></div></div>
+          <div class="legend-item"><div class="" style="background:var(--de-color)"></div></div>
+          <div class="legend-item"><div class="" style="background:var(--ink-faint)"></div></div>
+          <div class="legend-item"><div class=""></div></div>
+        </div>
+        <div class="chart-note">Fuente de datos: isoc_ci_in_h, HHTYP=TOTAL</div>
+      </div> 
+      <div class="section-footer">
+        <button class="nav-btn" onclick="goTo('intro')">← Anterior</button>
+        <span class="step-indicator">2 / 6</span>
+        <button class="nav-btn primary" onclick="goTo('capital')">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02-CAPACIDADES DIGITALES -->
+  <section class="section" id="sec-capital">
+    <div class="section-head">
+      <div class="chapter-tag">Capítulo 02 · Competencias</div>
+      <div class="section-title">Pero, ¿falta la capacidad de aprovecharlas?</div>
+      <div class="section-deck">En competencias digitales básicas España baja al grupo medio. Uno de cada tres españoles en edad activa no tiene las habilidades mínimas para trabajar digitalmente.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">Tener autopistas no sirve de nada si la gente no sabe conducir. España cae al puesto 9 en competencias digitales, muy por debajo de su posición en infraestructuras.</p>
+        <div class="insight-block">
+          <p>Algunos países con menos infraestructura tienen ciudadanos más competentes digitalmente.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value es" id="stat-cap-es">66.5%</div>
+            <div class="stat-label">España</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color:var(--de-color)" id="stat-cap-de">59.55%</div>
+            <div class="stat-label">Alemania</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-cap-eu">60.40%</div>
+            <div class="stat-label">Media UE</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value accent">9.º</div>
+            <div class="stat-label">Posición UE-27</div>
+          </div>
+        </div>
+        <p class="narrative-text">Aunque en el imaginario común tenemos a Alemania como uno de los países más avanzados del mundo, al menos en este aspecto, podemos decir que España está por delante de Alemania.</p>
+        <p class="narrative-text" style="font-size:12px; color:var(--ink-light)">Fuente: Eurostat isoc_sk_dskl_i21 · Indicador: i_dsk2_bab · 2025</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">Infraestructura vs. competencias digitales — UE-27</div>
+        <div class="chart-container" id="chart-capital"></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--es-color)"></div>España</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--de-color)"></div>Alemania</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--ink-faint)"></div>Resto UE</div>
+        </div>
+        <div class="chart-note">Eje X: cobertura banda ancha (%) · Eje Y: individuos con competencias básicas o superiores (%) · isoc_sk_dskl_i21</div>
+      </div>
+      <div class="section-footer">
+        <button class="nav-btn" onclick="goTo('conectividad')">← Anterior</button>
+        <span class="step-indicator">3 / 6</span>
+        <button class="nav-btn primary" onclick="goTo('uso')">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03-USO DIGITAL -->
+  <section class="section" id="sec-uso">
+    <div class="section-head">
+      <div class="chapter-tag">Capítulo 03 · Comportamiento</div>
+      <div class="section-title">¿Y se usa todo esto?</div>
+      <div class="section-deck">¿Destaca el uso de internet en España por algún motivo? Uso intensivo de las redes sociales o  retraso significativo en los usos con mayor impacto económico.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">Los datos muestran una España que usa internet como la media de los europeos, no usa más las redes sociales pero tampco destaca su uso para las actividades que más impactan en la economía y la vida laboral.</p>
+        <div class="insight-block">
+          <p>15.ª en uso de banca online · 10.ª en gobierno electrónico · 16.ª en uso de IA generativa</p>
+        </div>
+        <div class="dimension-selector" id="radarCountrySel">
+          <p style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-light); margin-bottom:4px;">Comparar con:</p>
+        </div>
+        <p class="narrative-text" style="font-size:12px; color:var(--ink-light); margin-top:.5rem">Fuente: Eurostat isoc_ci_ac_i · 2025</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">Actividades de internet — comparativa por país</div>
+        <div class="chart-container" id="chart-uso" style="display:flex; align-items:center; justify-content:center;"></div>
+        <div class="chart-legend" id="radar-legend"></div>
+        <div class="chart-note">Selecciona países para comparar.</div>
+      </div>
+      <div class="section-footer">
+        <button class="nav-btn" onclick="goTo('capital')">← Anterior</button>
+        <span class="step-indicator">4 / 6</span>
+        <button class="nav-btn primary" onclick="goTo('servicios')">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 SERVICIOS PÚBLICOS -->
+  <section class="section" id="sec-servicios">
+    <div class="section-head">
+      <div class="chapter-tag">Capítulo 04 · Administración digital</div>
+      <div class="section-title">El Estado sí ha hecho los deberes</div>
+      <div class="section-deck">La administración electrónica española está por encima de la media europea. El reto ahora es que el ciudadano la use.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">El DNI electrónico, la cita médica online, la declaración de la renta, los trámites con la Seguridad Social. El Estado ha digitalizado su relación con el ciudadano, pero la adopción ciudadana es desigual.</p>
+        <div class="insight-block">
+          <p>Alta calidad de oferta pública, pero uso ciudadano por debajo del potencial.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value es" id="stat-srv-es">80.72%</div>
+            <div class="stat-label">Uso e-gov España</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color:var(--de-color)" id="stat-srv-de">66.50%</div>
+            <div class="stat-label">Uso e-gov Alemania</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-srv-eu">71.88%</div>
+            <div class="stat-label">Media UE</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value accent">10.º</div>
+            <div class="stat-label">Posición UE-27</div>
+          </div>
+        </div>
+        <p class="narrative-text">Varios países con menos desarrollo del e-gobierno tienen un uso más extendido entre la ciudadanía.</p>
+        <p class="narrative-text" style="font-size:12px; color:var(--ink-light)">Fuente: Eurostat isoc_ciegi_ac · eGovernment Benchmark 2025</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">Oferta vs. uso de e-gobierno — UE-27</div>
+        <div class="chart-container" id="chart-servicios"></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--es-color)"></div>España</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--de-color)"></div>Alemania</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--ink-faint)"></div>Resto UE</div>
+        </div>
+        <div class="chart-note">Eje X: puntuación eGov Benchmark (calidad oferta) · Eje Y: % ciudadanos que usan e-gobierno · isoc_ciegi_ac</div>
+      </div>
+      <div class="section-footer">
+        <button class="nav-btn" onclick="goTo('uso')">← Anterior</button>
+        <span class="step-indicator">5 / 6</span>
+        <button class="nav-btn primary" onclick="goTo('cierre')">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 CONCLUSIÓN -->
+  <section class="section" id="sec-cierre">
+    <div class="section-head">
+      <div class="chapter-tag">Conclusión</div>
+      <div class="section-title">El espejo europeo</div>
+      <div class="section-deck">España no es un caso de fracaso digital. Es un caso de desequilibrio. El reto no es técnico, es humano.</div>
+    </div>
+    <div class="section-body">
+      <div class="narrative-col">
+        <p class="narrative-text">España construyó las infraestructuras antes que la capacidad para usarlas. Ahora el reto es humano: formación, confianza e inclusión digital.</p>
+        <p class="narrative-text">Los países que España tiene como espejo no son los más ricos, sino los que resolvieron antes ese mismo desequilibrio: Finlandia, Irlanda o incluso algunos países del este que partían de menos infraestructura como Estonia.</p>
+        <div class="insight-block">
+          <p>Objetivo: Aprender de los países que mejor lo han hecho en estos 7 años para los próximos 7. España está hoy en el 66.5%.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value es">+6</div>
+            <div class="stat-label">Puntos ganados 2018–2025</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value accent">+12</div>
+            <div class="stat-label">Puntos ganados - Irlanda 2018–2025</div>
+          </div>
+        </div>
+        <p class="narrative-text" style="font-size:12px; color:var(--ink-light)">Fuente: Eurostat 2025</p>
+      </div>
+      <div class="viz-col">
+        <div class="viz-title">Trayectorias digitales 2018 – 2025</div>
+        <div class="chart-container" id="chart-cierre"></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--es-color)"></div>España</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--de-color)"></div>Alemania</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7a7a74"></div>Finlandia</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c0844a"></div>Irlanda</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#5a9a78"></div>Estonia</div>
+        </div>
+        <div class="chart-note">Valores del índice sintético calculado.</div>
+      </div>
+      <div class="section-footer">
+        <button class="nav-btn" onclick="goTo('servicios')">← Anterior</button>
+        <span class="step-indicator">6 / 6</span>
+        <button class="nav-btn" onclick="goTo('intro')" style="border-color:var(--ink-light); color:var(--ink-light)">↺ Inicio</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ TOOLTIP GLOBAL ══ -->
+<div class="tooltip" id="tooltip"></div>
+
+</body>
+</html>
